@@ -31,6 +31,8 @@ int main() {
 
 	xDir = (rand() % 2) ? 1L : -1L;
 	yDir = (rand() % 2) ? 1 : -1;
+	x = rand() % 270L + 25L;
+	y = rand() % 178 + 51;
 
 	clrscr();
 	POKE(53281L, 0);
@@ -41,7 +43,7 @@ int main() {
 	POKE(v + 39, 6); // Set colour for sprite 0
 	POKE(v + 40, 6); // Set colour for sprite 1
 
-	memcpy(12288L, spriteData, sizeof(spriteData));
+	memcpy((char*)12288L, spriteData, sizeof(spriteData));
 
 	for(;;) {
 		timer++;
@@ -50,46 +52,22 @@ int main() {
 			x += xDir;
 			y += yDir;
 
-			if(yDir == 1) {
-				if(y == 230) {
-					yDir = -1;
-					if(x < 28L || x > 292L) {
-						colorIndex++;
-						colorIndex %= sizeof(possibleColors);
-						POKE(v + 39, possibleColors[colorIndex]);
-						POKE(v + 40, possibleColors[colorIndex]);
-					}
-				}
-			} else {
-				if(y == 50) {
-					yDir = 1;
-					if(x < 28L || x > 292L) {
-						colorIndex++;
-						colorIndex %= sizeof(possibleColors);
-						POKE(v + 39, possibleColors[colorIndex]);
-						POKE(v + 40, possibleColors[colorIndex]);
-					}
+			if(y == 50 || y == 230) {
+				yDir = -yDir;
+				if(x < 27L || x > 293L) {
+					colorIndex++;
+					colorIndex %= sizeof(possibleColors);
+					POKE(v + 39, possibleColors[colorIndex]);
+					POKE(v + 40, possibleColors[colorIndex]);
 				}
 			}
-			if(xDir == 1) {
-				if(x == 296L) {
-					xDir = -1;
-					if(y < 54 || y > 226) {
-						colorIndex++;
-						colorIndex %= sizeof(possibleColors);
-						POKE(v + 39, possibleColors[colorIndex]);
-						POKE(v + 40, possibleColors[colorIndex]);
-					}
-				}
-			} else {
-				if(x == 24L) {
-					xDir = 1;
-					if(y < 54 || y > 226) {
-						colorIndex++;
-						colorIndex %= sizeof(possibleColors);
-						POKE(v + 39, possibleColors[colorIndex]);
-						POKE(v + 40, possibleColors[colorIndex]);
-					}
+			if(x == 24L || x == 296L) {
+				xDir = -xDir;
+				if(y < 53 || y > 227) {
+					colorIndex++;
+					colorIndex %= sizeof(possibleColors);
+					POKE(v + 39, possibleColors[colorIndex]);
+					POKE(v + 40, possibleColors[colorIndex]);
 				}
 			}
 
